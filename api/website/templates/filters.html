@@ -1,0 +1,44 @@
+{% block filters %}
+<style>
+    * {
+        color: white;
+    }
+    #filters {
+        display: flex;
+        background-color: #232423;
+        height: 260px;
+        align-items: center;
+        justify-content: center;
+        padding: 20px;
+        flex-direction: column;
+        border-radius: 10px;
+    }
+    #search {
+        height: 30px;
+        border-radius: 5px;
+        border: 1px solid #3f3f3f;
+        padding: 5px;
+    }
+</style>
+
+<div id="filters">
+    <form id="search-form">
+        <input type="search" id="search" placeholder="Search for a pepper" />
+        <button type="submit">Search</button>
+
+        <br />
+        <select id="category">
+            <option value="all">All</option>
+            {% for category in categories %}
+            <option value="{{ category }}">{{ category }}</option>
+            {% endfor %}
+        </select>
+        <section id="basket">
+            <p>Items in the basket: <span id="basket-count">0</span></p>
+            <p>Total price: <span id="basket-price">0.0</span></p>
+        </section>
+    </form>
+</div>
+
+{% endblock %}
+

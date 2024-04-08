@@ -1,0 +1,76 @@
+{% extends "base.html" %}
+{% block title %}Peppers{% endblock %}
+{% block content %}
+
+
+<style>
+    #peppers {
+        width: 100%;
+    }
+    .pepper-card {
+        margin: 50px;
+        padding: 10px;
+        width: 350px;
+        height: 300px;
+        background-color: #232423;
+        color: white;
+        display: flex;
+        flex-direction: row;
+        justify-content: center;
+        align-items: center;
+        transition: all 0.3s ease;
+        border-radius: 10px;
+        box-shadow: 0 0 10px 0 #3f3f3f;
+        border: 1px solid #3f3f3f;
+    }
+    .pepper-card img {
+        width: 150px;
+        height: 150px;
+        border-radius: 10px;
+        margin-left: 15px;
+    }
+    .pepper-card:hover {
+        transform: scale(1.05);
+        background-color: #3f3f3f;
+        cursor: pointer;
+    }
+    .pepper-card p {
+        margin: 0;
+    }
+    span {
+        font-weight: bold;
+    }
+</style>
+
+<!-- <h1>All Peppers</h1> -->
+    <section id="peppers">
+        {% for pepper in peppers %}
+            <div class="pepper-card">
+                <div>
+                <h3> <span>{{ pepper.name }}</span></h3>
+
+                {% if pepper.description|length >= 50 %}
+                    <p><span>{{ pepper.description[:50] + '...' }}</span></p>
+                {% else %}
+                    <p><span>{{ pepper.description }}</span></p>
+                {% endif %}
+                <br>
+                <p>Price: <span>{{ pepper.price }}PLN</span></p>
+                <p>Availability: <span>{{ pepper.availability }}</span></p>
+                <p>Category: <span>{{ pepper.category }}<span></p>
+                </div>
+                <!-- future solution. Now just show image -->
+                <!-- <img src="{{ url_for('static', filename='peppers/' + pepper.name + '.jpg') }}" alt="{{ pepper.name }}"> -->
+
+                <img src="https://i5.walmartimages.com/seo/Fresh-Red-Bell-Pepper-1-Each_7be94a8e-9a5d-4f87-842f-5fe4084138ba.c95d36e140f5e0d492ca632b42e4543c.jpeg" alt="papryka" />
+            </div>
+        {% endfor %}
+    </section>
+    <!-- {% if user.is_authenticated %} -->
+    <!--     <p>Welcome, {{ user.username }}!</p> -->
+    <!-- {% else %} -->
+    <!--     <p>Please log in.</p> -->
+    <!-- {% endif %} -->
+
+{% endblock %}
+

@@ -1,0 +1,48 @@
+{% block navbar %}
+<head>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css"
+        crossorigin="anonymous" />
+
+<style>
+    .shopping-cart {
+        margin-right: 20px;
+        color: white;
+    }
+
+    #navbar {
+        width: 100%;
+        display: flex;
+        justify-content: space-between;
+        background-color: #232423;
+        color: white;
+        height: 60px;
+        align-items: center;
+        border-bottom: 1px solid #3f3f3f;
+    }
+    #navbar a {
+        margin-left: 20px;
+        margin-right: 20px;
+        color: white;
+        text-decoration: none;
+        font-weight: bold;
+        font-size: 20px;
+    }
+
+</style>
+
+<nav class="">
+    <div id="navbar">
+        <div>
+            {% if user.is_authenticated %}
+            <a id="home" href="/">Home</a>
+            <a id="logout" href="/logout">Logout</a>
+            {% else %}
+            <a id="login" href="/login">Login</a>
+            <a id="signUp" href="/sign-up">Sign Up</a>
+            {% endif %}
+        </div>
+        <a class="shopping-cart" href="/view-cart"><i class="fa fa-shopping-cart" aria-hidden="true"></i></a>
+    </div>
+</nav>
+
+{% endblock %}

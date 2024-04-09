@@ -1,7 +1,7 @@
 from flask import Blueprint, render_template, request, flash, jsonify
 from flask_login import login_required, current_user
 from . import db
-from .models import Pepper
+from .models import Pepper, Cart
 import json
 
 views = Blueprint('views', __name__)
@@ -22,25 +22,41 @@ def peppers():
     return render_template('peppers.html', peppers=peppers, user=current_user)
 
 
-# @views.route('/peppers/<pepper_name>')
-# def pepper(pepper_name):
-#     pepper = Pepper.query.filter_by(name=pepper_name).first()
-#     return render_template('pepper.html', pepper=pepper, user=current_user)
-
-
-@views.route('/shopping-cart')
+@views.route('/view-cart')
 def shopping_cart():
-    return render_template('shopping_cart.html', user=current_user)
+    return render_template('shopping_cart.html', cart_items=Cart.query.all(), user=current_user)
 
 
-# @views.route('/delete-comment', methods=['POST'])
-# def delete_comment():
-#     comment = json.loads(request.data)  # this function expects a JSON from the INDEX.js file
-#     commentId = comment['commentId']
-#     comment = Comment.query.get(commentId)
-#     if comment:
-#         if comment.user_id == current_user.id:
-#             db.session.delete(comment)
-#             db.session.commit()
-#
-#     return jsonify({})
+@views.route('/add-to-cart/<int:pepper_id>', methods=['POST'])
+def add_to_cart(pepper_id):
+    cart = Cart.query.filter_by(pepper_id=product_id).first()
+    if cart:
+        cart.quantity += 1
+    else:
+        cart = Cart(pepper_id=product_id, quantity=1)
+        db.session.add(cart)
+    db.session.commit()
+    return jsonify({})
+
+
+@views.route('/remove-from-cart/<int:pepper_id>', methods=['POST'])
+def remove_from_cart(pepper_id):
+    cart = Cart.query.filter_by(pepper_id=product_id).first()
+    if cart:
+        if cart.quantity > 1:
+            cart.quantity -= 1
+        else:
+            db.session.delete(cart)
+    db.session.commit()
+    return jsonify({})
+
+
+@views.route('/update-cart', methods=['POST'])
+def update_cart():
+    cart_items = json.loads(request.data)
+    for item in cart_items:
+        cart = Cart.query.get(item['id'])
+        if cart:
+            cart.quantity = item['quantity']
+    db.session.commit()
+    return jsonify({})

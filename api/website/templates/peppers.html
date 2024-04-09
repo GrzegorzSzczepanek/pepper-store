@@ -4,11 +4,18 @@
 
 
 <style>
+    #filters-products {
+        display: grid;
+        grid-template-columns: 1fr 5fr;
+    }
     #peppers {
         width: 100%;
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
     }
     .pepper-card {
-        margin: 50px;
+        margin: 0px 50px 50px 0px;
         padding: 10px;
         width: 350px;
         height: 300px;
@@ -43,6 +50,8 @@
 </style>
 
 <!-- <h1>All Peppers</h1> -->
+<div id="filters-products">
+    {% include "filters.html" %}
     <section id="peppers">
         {% for pepper in peppers %}
             <div class="pepper-card">
@@ -55,9 +64,14 @@
                     <p><span>{{ pepper.description }}</span></p>
                 {% endif %}
                 <br>
+
                 <p>Price: <span>{{ pepper.price }}PLN</span></p>
                 <p>Availability: <span>{{ pepper.availability }}</span></p>
                 <p>Category: <span>{{ pepper.category }}<span></p>
+
+                <form actction="{{ url_for('views.add_to_cart', pepper=pepper.id) }}">
+                    <button type="submit">Add to Cart</button>
+                </form>
                 </div>
                 <!-- future solution. Now just show image -->
                 <!-- <img src="{{ url_for('static', filename='peppers/' + pepper.name + '.jpg') }}" alt="{{ pepper.name }}"> -->
@@ -66,6 +80,8 @@
             </div>
         {% endfor %}
     </section>
+
+</div>
     <!-- {% if user.is_authenticated %} -->
     <!--     <p>Welcome, {{ user.username }}!</p> -->
     <!-- {% else %} -->

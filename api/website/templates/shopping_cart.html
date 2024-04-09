@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="stylesheet" href="{{ url_for('static', filename='main.css') }}">
+
+    <style>
+        .container {
+            width: 100%;
+            background-color: #234323;
+            height: 100%;
+            overflow-x: hidden;
+            color: white;
+        }
+    </style>
+    <title>Shopping Cart</title>
+</head>
+
+<body>
+    <div class="container">
+        {% for item in cart_items %}
+  <div>
+    <h3>{{ item.product.name }}</h3>
+    <p>Quantity: {{ item.quantity }}</p>
+    <form action="{{ url_for('update_cart', product_id=item.product.id) }}" method="post">
+      <input type="number" name="quantity" value="{{ item.quantity }}">
+      <button type="submit">Update</button>
+    </form>
+    <form action="{{ url_for('remove_from_cart', product_id=item.product.id) }}" method="post">
+      <button type="submit">Remove</button>
+    </form>
+  </div>
+{% endfor %}
+    </div>
+</body>

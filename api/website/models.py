@@ -17,3 +17,11 @@ class Pepper(db.Model):
     price = db.Column(db.Float)
     availability = db.Column(db.String(11))
     category = db.Column(db.String(30))
+    cart_items = db.relationship('Cart', backref='pepper', lazy=True)
+
+
+class Cart(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    # user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
+    pepper_id = db.Column(db.Integer, db.ForeignKey('pepper.id'), nullable=False)
+    quantity = db.Column(db.Integer, nullable=False, default=1)

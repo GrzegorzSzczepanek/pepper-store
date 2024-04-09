@@ -69,9 +69,10 @@
                 <p>Availability: <span>{{ pepper.availability }}</span></p>
                 <p>Category: <span>{{ pepper.category }}<span></p>
 
-                <form actction="{{ url_for('views.add_to_cart', pepper=pepper.id) }}">
+                <form action="{{ url_for('views.add_to_cart', pepper_id=pepper.id) }}" method="POST">
                     <button type="submit">Add to Cart</button>
                 </form>
+
                 </div>
                 <!-- future solution. Now just show image -->
                 <!-- <img src="{{ url_for('static', filename='peppers/' + pepper.name + '.jpg') }}" alt="{{ pepper.name }}"> -->

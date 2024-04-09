@@ -29,11 +29,11 @@ def shopping_cart():
 
 @views.route('/add-to-cart/<int:pepper_id>', methods=['POST'])
 def add_to_cart(pepper_id):
-    cart = Cart.query.filter_by(pepper_id=product_id).first()
+    cart = Cart.query.filter_by(pepper_id=pepper_id).first()
     if cart:
         cart.quantity += 1
     else:
-        cart = Cart(pepper_id=product_id, quantity=1)
+        cart = Cart(pepper_id=pepper_id, quantity=1)
         db.session.add(cart)
     db.session.commit()
     return jsonify({})
@@ -41,7 +41,7 @@ def add_to_cart(pepper_id):
 
 @views.route('/remove-from-cart/<int:pepper_id>', methods=['POST'])
 def remove_from_cart(pepper_id):
-    cart = Cart.query.filter_by(pepper_id=product_id).first()
+    cart = Cart.query.filter_by(pepper_id=pepper_id).first()
     if cart:
         if cart.quantity > 1:
             cart.quantity -= 1

@@ -1,0 +1,45 @@
+{% block products_in_cart %}
+<!-- website/templates/products_in_cart.html -->
+<style>
+    section {
+        width: 60%;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        background-color: #232323;
+    }
+
+    .product-in-cart {
+        width: 60%;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        background-color: #fefefe;
+        border-radius: 10px;
+        margin: 10px;
+        padding: 10px;
+        border: 1px solid #3f3f3f;
+        color: #222;
+    }
+</style>
+
+<section>
+    {% for item in cart_items %}
+    <div class="product-in-cart">
+        <h3>{{ item.pepper.name }}</h3>
+        <p>Quantity: {{ item.quantity }}</p>
+        <form action="{{ url_for('views.update_cart', pepper_id=item.pepper.id) }}" method="post">
+            <input type="number" name="quantity" value="{{ item.quantity }}">
+            <button type="submit">Update</button>
+        </form>
+
+        <form action="{{ url_for('views.remove_from_cart', pepper_id=item.pepper.id) }}" method="post">
+            <button type="submit">Remove</button>
+        </form>
+
+    </div>
+    {% endfor %}
+</section>
+{% endblock %}

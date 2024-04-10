@@ -1,11 +1,99 @@
-{% extends "base.html" %} {% block title %}Home{% endblock %}
+<!-- website/templates/home.html -->
+{% extends "main.html" %} {% block title %}Home{% endblock %}
 {% block content %}
 
-{% if user.is_authenticated %}
-    <h1>Welcome, {{ user.first_name }}!</h1>
-{% else %}
-    <h1>Please log in.</h1>
-{% endif %}
+<style>
+
+    .main-container {
+        width: 100%;
+        height: 100vh;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        background-image: url("https://www.bhg.com/thmb/6Tt57KkbBIUXRD3d54Pz1fG85nI=/4000x0/filters:no_upscale():strip_icc()/BHG-gardening-basket-harvest-peppers-EIpyzz36KY2B5A0n-43wT6-2b62930e608345f3a8613d17d424f795.jpg");
+        object-fit: scale-down;
+        background-repeat: no-repeat;
+    }
+
+    #black-bg {
+        background-color: rgba(0, 0, 0, 0.5);
+        width: 100%;
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        color: white;
+    }
+
+    #black-bg h1 {
+        font-size: 5rem;
+        -webkit-text-stroke: 2px black; /* width and color */
+        font-family: sans; color: #efefef;
+    }
+
+    #black-bg button {
+        margin-top: 20px;
+        padding: 10px 20px;
+        border-radius: 5px;
+        background-color: white;
+        color: black;
+        border: none;
+        font-size: 20px;
+        cursor: pointer;
+        transition: all 0.3s ease;
+    }
+
+    #black-bg button a {
+        color: black;
+        text-decoration: none;
+        font-weight: bold;
+        font-size: 2em;
+    }
+
+    #black-bg button:hover {
+        scale: 1.05;
+        color: white;
+    }
+    .intro-text {
+        transition: all 0.3s ease;
+    }
+    .intro-text:hover {
+        color: yellow;
+        pointer: cursor;
+    }
+
+</style>
+
+<div class="main-container">
+    <div id="black-bg">
+        <h1 id="intro-text"></h1>
+        <button>
+            <a href="{{ url_for('views.peppers') }}">See all peppers</a>
+        </button>
+    </div>
+</div>
+
+<!-- JavaScript script -->
+<script>
+    // Define JavaScript variables using Flask template syntax
+    {% if user.is_authenticated %}
+        var textVar = "Welcome again," + " " + "{{ user.first_name }}";
+    {% else %}
+        var textVar = "Welcome to our store!";
+    {% endif %}
+
+    // Example usage of JavaScript variables
+    document.addEventListener('DOMContentLoaded', function() {
+        {% if user.is_authenticated %}
+            let introTextH1 = document.getElementById('intro-text');
+            for (let i = 0; i < textVar.length; i++) {
+                introTextH1.innerHTML += `<span class="intro-text">${textVar[i]}</span>`;
+            }
+        {% endif %}
+    });
+</script>
 
 {% endblock %}
 

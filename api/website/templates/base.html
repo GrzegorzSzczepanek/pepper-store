@@ -50,9 +50,10 @@
     {% endwith %}
     {% endblock %}
 
+
+    {% include "navbar.html" %}
     <div class="container">
 
-        {% include "navbar.html" %}
         <div id="filters-content">
             {% block content %} {% endblock %}
         </div>

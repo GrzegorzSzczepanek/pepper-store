@@ -1,8 +1,7 @@
-from flask import Blueprint, render_template, request, flash, jsonify
-from flask_login import login_required, current_user
+from flask import Blueprint, render_template, request, jsonify, url_for, redirect
+from flask_login import current_user  # login_required
 from . import db
 from .models import Pepper, Cart
-import json
 
 views = Blueprint('views', __name__)
 
@@ -36,27 +35,19 @@ def add_to_cart(pepper_id):
         cart = Cart(pepper_id=pepper_id, quantity=1)
         db.session.add(cart)
     db.session.commit()
-    return jsonify({})
+    return redirect(url_for('views.peppers'))
 
 
-@views.route('/remove-from-cart/<int:pepper_id>', methods=['POST'])
-def remove_from_cart(pepper_id):
-    cart = Cart.query.filter_by(pepper_id=pepper_id).first()
-    if cart:
-        if cart.quantity > 1:
-            cart.quantity -= 1
-        else:
-            db.session.delete(cart)
-    db.session.commit()
-    return jsonify({})
+@views.route('/delete-from-cart/<int:cart_id>', methods=['POST'])
+def delete_from_cart(cart_id):
+    cart_item = Cart.query.get_or_404(cart_id)
+    cart_item.delete_item()
+    return redirect(url_for('views.shopping_cart'))
 
 
-@views.route('/update-cart', methods=['POST'])
-def update_cart():
-    cart_items = json.loads(request.data)
-    for item in cart_items:
-        cart = Cart.query.get(item['id'])
-        if cart:
-            cart.quantity = item['quantity']
-    db.session.commit()
-    return jsonify({})
+@views.route('/update-cart/<int:cart_id>', methods=['POST'])
+def update_cart(cart_id):
+    cart_item = Cart.query.get_or_404(cart_id)
+    new_quantity = request.form.get('quantity', type=int)
+    cart_item.update_quantity(new_quantity)
+    return redirect(url_for('views.shopping_cart'))

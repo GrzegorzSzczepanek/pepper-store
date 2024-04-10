@@ -25,3 +25,14 @@ class Cart(db.Model):
     # user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
     pepper_id = db.Column(db.Integer, db.ForeignKey('pepper.id'), nullable=False)
     quantity = db.Column(db.Integer, nullable=False, default=1)
+
+    def update_quantity(self, new_quantity):
+        if new_quantity > 0:
+            self.quantity = new_quantity
+        else:
+            db.session.delete(self)
+        db.session.commit()
+
+    def delete_item(self):
+        db.session.delete(self)
+        db.session.commit()

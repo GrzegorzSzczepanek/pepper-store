@@ -61,7 +61,7 @@
     }
     .intro-text:hover {
         color: yellow;
-        pointer: cursor;
+        pointer: default;
     }
 
 </style>
@@ -79,7 +79,7 @@
 <script>
     // Define JavaScript variables using Flask template syntax
     {% if user.is_authenticated %}
-        var textVar = "Welcome again," + " " + "{{ user.first_name }}";
+        var textVar = "Welcome again," + " " + "{{ user.first_name }}!";
     {% else %}
         var textVar = "Welcome to our store!";
     {% endif %}

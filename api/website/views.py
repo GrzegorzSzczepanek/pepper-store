@@ -18,7 +18,8 @@ def home():
 @views.route('/peppers')
 def peppers():
     peppers = Pepper.query.all()
-    return render_template('peppers.html', peppers=peppers, user=current_user)
+    cart_items = Cart.query.all()
+    return render_template('peppers.html', peppers=peppers, cart_items=cart_items, user=current_user)
 
 
 @views.route('/view-cart')

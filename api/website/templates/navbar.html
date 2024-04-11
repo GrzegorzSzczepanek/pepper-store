@@ -19,6 +19,18 @@
         align-items: center;
         border-bottom: 1px solid #3f3f3f;
     }
+    #basket {
+        display: flex;
+        flex-direction: row;
+        justify-content: center;
+        align-items: center;
+    }
+    .shopping-cart-info {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+    }
     #navbar a {
         margin-left: 20px;
         margin-right: 20px;
@@ -26,7 +38,15 @@
         text-decoration: none;
         font-weight: bold;
         font-size: 20px;
+        transition: all 0.3s ease;
     }
+    #navbar a:hover {
+        color: yellow;
+    }
+    .shopping-cart-info p {
+        margin: 0;
+    }
+
 
 </style>
 
@@ -41,7 +61,27 @@
             <a id="signUp" href="/sign-up">Sign Up</a>
             {% endif %}
         </div>
-        <a class="shopping-cart" href="/view-cart"><i class="fa fa-shopping-cart" aria-hidden="true"></i></a>
+
+        {% if request.path != '/view-cart' %}
+            {% set total_quantity = cart_items | map(attribute='quantity') | sum %}
+            {% set total_worth = 0 %}
+
+            {% set quantities = [] %}
+
+            {% for item in cart_items %}
+                {% set _ = quantities.append(item.quantity * item.pepper.price) %}
+            {% endfor %}
+
+            {% set total_worth = quantities | sum %}
+
+            <section id="basket">
+                <div class="shopping-cart-info">
+                    <p>Total Quantity in Cart: {{ total_quantity }}</p>
+                    <p>Combined Worth of Items in Cart: {{ total_worth }} PLN</p>
+                </div>
+                <a class="shopping-cart" href="/view-cart"><i class="fa fa-shopping-cart" aria-hidden="true"></i></a>
+            </section>
+        {% endif %}
     </div>
 </nav>
 

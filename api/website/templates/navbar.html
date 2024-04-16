@@ -10,7 +10,7 @@
     }
 
     #navbar {
-        width: 100%;
+        width: 100vw;
         display: flex;
         justify-content: space-between;
         background-color: #232423;
@@ -49,40 +49,42 @@
 
 
 </style>
+</head>
 
-<nav class="">
-    <div id="navbar">
-        <div>
-            {% if user.is_authenticated %}
-            <a id="home" href="/">Home</a>
-            <a id="logout" href="/logout">Logout</a>
-            {% else %}
-            <a id="login" href="/login">Login</a>
-            <a id="signUp" href="/sign-up">Sign Up</a>
-            {% endif %}
-        </div>
-
-        {% if request.path != '/view-cart' %}
-            {% set total_quantity = cart_items | map(attribute='quantity') | sum %}
-            {% set total_worth = 0 %}
-
-            {% set quantities = [] %}
-
-            {% for item in cart_items %}
-                {% set _ = quantities.append(item.quantity * item.pepper.price) %}
-            {% endfor %}
-
-            {% set total_worth = quantities | sum %}
-
-            <section id="basket">
-                <div class="shopping-cart-info">
-                    <p>Total Quantity in Cart: {{ total_quantity }}</p>
-                    <p>Combined Worth of Items in Cart: {{ total_worth }} PLN</p>
-                </div>
-                <a class="shopping-cart" href="/view-cart"><i class="fa fa-shopping-cart" aria-hidden="true"></i></a>
-            </section>
+<nav id="navbar">
+    <div>
+        {% if user.is_authenticated %}
+        <a id="home" href="/">Home</a>
+        <a id="logout" href="/logout">Logout</a>
+        {% else %}
+        <a id="login" href="/login">Login</a>
+        <a id="signUp" href="/sign-up">Sign Up</a>
+        {% endif %}
+        {% if request.path == '/view-cart' %}
+            <a id="peppers" href="/peppers">Peppers</a>
         {% endif %}
     </div>
+
+    {% if request.path != '/view-cart' %}
+        {% set total_quantity = cart_items | map(attribute='quantity') | sum %}
+        {% set total_worth = 0 %}
+
+        {% set quantities = [] %}
+
+        {% for item in cart_items %}
+            {% set _ = quantities.append(item.quantity * item.pepper.price) %}
+        {% endfor %}
+
+        {% set total_worth = quantities | sum %}
+
+        <section id="basket">
+            <div class="shopping-cart-info">
+                <p>Total Quantity in Cart: {{ total_quantity }}</p>
+                <p>Combined Worth of Items in Cart: {{ total_worth }} PLN</p>
+            </div>
+            <a class="shopping-cart" href="/view-cart"><i class="fa fa-shopping-cart" aria-hidden="true"></i></a>
+        </section>
+    {% endif %}
 </nav>
 
 {% endblock %}

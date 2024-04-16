@@ -13,6 +13,7 @@
     <style>
         .container {
             width: 100%;
+            min-height: 100%;
             background-color: #234323;
             display: grid;
             grid-template-rows: 60px 1fr 60px;
@@ -54,9 +55,7 @@
 
     <div class="container">
         {% include "navbar.html" %}
-
         {% block content %} {% endblock %}
-
         {% include "footer.html" %}
     </div>
 

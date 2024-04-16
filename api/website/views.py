@@ -19,7 +19,20 @@ def home():
 def peppers():
     peppers = Pepper.query.all()
     cart_items = Cart.query.all()
-    return render_template('peppers.html', peppers=peppers, cart_items=cart_items, user=current_user)
+    categories = set([pepper.category for pepper in peppers])
+    return render_template('peppers.html', peppers=peppers, cart_items=cart_items, user=current_user, categories=categories)
+
+
+@views.route('/search', methods=['GET'])
+def search():
+    search_query = request.args.get('search')
+    category = request.args.get('category')
+
+    peppers = Pepper.query.all()
+    categories = set([pepper.category for pepper in peppers])
+    filtered_peppers = [pepper for pepper in peppers if pepper.category == category]
+
+    return render_template('peppers.html', peppers=filtered_peppers, user=current_user, categories=categories)
 
 
 @views.route('/view-cart')
@@ -27,7 +40,7 @@ def shopping_cart():
     return render_template('shopping_cart.html', cart_items=Cart.query.all(), user=current_user)
 
 
-@views.route('/add-to-cart/<int:pepper_id>', methods=['POST'])
+@ views.route('/add-to-cart/<int:pepper_id>', methods=['POST'])
 def add_to_cart(pepper_id):
     cart = Cart.query.filter_by(pepper_id=pepper_id).first()
     if cart:
@@ -39,14 +52,14 @@ def add_to_cart(pepper_id):
     return redirect(url_for('views.peppers'))
 
 
-@views.route('/delete-from-cart/<int:cart_id>', methods=['POST'])
+@ views.route('/delete-from-cart/<int:cart_id>', methods=['POST'])
 def delete_from_cart(cart_id):
     cart_item = Cart.query.get_or_404(cart_id)
     cart_item.delete_item()
     return redirect(url_for('views.shopping_cart'))
 
 
-@views.route('/update-cart/<int:cart_id>', methods=['POST'])
+@ views.route('/update-cart/<int:cart_id>', methods=['POST'])
 def update_cart(cart_id):
     cart_item = Cart.query.get_or_404(cart_id)
     new_quantity = request.form.get('quantity', type=int)

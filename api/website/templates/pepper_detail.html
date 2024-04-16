@@ -1,0 +1,51 @@
+<!-- api/website/templates/pepper_detail.html -->
+{% extends "base.html" %}
+{% block title %}{{ pepper.name }}{% endblock %}
+{% block content %}
+<style>
+    #pepper-page {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        grid-gap: 50px;
+    }
+
+    #pepper-page-info, #pepper-page-image {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+    #pepper-page-info {
+        flex-direction: column;
+    }
+    #pepper-page-image img {
+        width: 300px;
+        height: 300px;
+        border-radius: 10px;
+    }
+
+</style>
+
+<script src="{{ url_for('static', filename='index.js') }}"></script>
+
+<div id="pepper-page">
+    <section id="pepper-page-info">
+        <h1>{{ pepper.name }}</h1>
+        <p><strong>category:</strong> {{ pepper.category }}</p>
+        <p><strong>Description:</strong> {{ pepper.description }}</p>
+        <p>Price: <span>{{ pepper.price }}PLN</span></p>
+        <p>Availability: <span>{{ pepper.availability }}</span></p>
+        <form action="{{ url_for('views.add_to_cart', pepper_id=pepper.id) }}" method="POST" id="add-to-cart-form">
+            <button type="button" onclick="addToCart()">Add to Cart</button>
+        </form>
+
+    </section>
+    <section id="pepper-page-image">
+        {% if pepper.image_url %}
+            <img src="{{ pepper.image_url }}" alt="{{ pepper.name }}">
+        {% else %}
+            <img src="https://i5.walmartimages.com/seo/Fresh-Red-Bell-Pepper-1-Each_7be94a8e-9a5d-4f87-842f-5fe4084138ba.c95d36e140f5e0d492ca632b42e4543c.jpeg" alt="papryka" />
+        {% endif %}
+    </section>
+</div>
+
+{% endblock %}

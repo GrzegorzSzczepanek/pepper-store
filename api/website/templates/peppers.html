@@ -48,31 +48,39 @@
     span {
         font-weight: bold;
     }
+    #add-to-cart-form {
+
+    }
+
 </style>
 
+<script src="{{ url_for('static', filename='index.js') }}"></script>
 <!-- <h1>All Peppers</h1> -->
 <div id="filters-products">
     {% include "filters.html" %}
     <section id="peppers">
         {% for pepper in peppers %}
+        <a href="{{ url_for('views.pepper', pepper_id=pepper.id) }}">
             <div class="pepper-card">
                 <div>
-                <h3> <span>{{ pepper.name }}</span></h3>
+                    <h3>
+                        <span>{{ pepper.name }}</span>
+                    </h3>
 
-                {% if pepper.description|length >= 50 %}
-                    <p><span>{{ pepper.description[:50] + '...' }}</span></p>
-                {% else %}
-                    <p><span>{{ pepper.description }}</span></p>
-                {% endif %}
-                <br>
+                    {% if pepper.description|length >= 50 %}
+                        <p><span>{{ pepper.description[:50] + '...' }}</span></p>
+                    {% else %}
+                        <p><span>{{ pepper.description }}</span></p>
+                    {% endif %}
+                    <br>
 
-                <p>Price: <span>{{ pepper.price }}PLN</span></p>
-                <p>Availability: <span>{{ pepper.availability }}</span></p>
-                <p>Category: <span>{{ pepper.category }}<span></p>
+                    <p>Price: <span>{{ pepper.price }}PLN</span></p>
+                    <p>Availability: <span>{{ pepper.availability }}</span></p>
+                    <p>Category: <span>{{ pepper.category }}<span></p>
 
-                <form action="{{ url_for('views.add_to_cart', pepper_id=pepper.id) }}" method="POST">
-                    <button type="submit">Add to Cart</button>
-                </form>
+                    <form action="{{ url_for('views.add_to_cart', pepper_id=pepper.id) }}" method="POST" id="add-to-cart-form">
+                        <button type="submit">Add to Cart</button>
+                    </form>
 
                 </div>
                 <!-- future solution. Now just show image -->
@@ -80,6 +88,7 @@
 
                 <img src="https://i5.walmartimages.com/seo/Fresh-Red-Bell-Pepper-1-Each_7be94a8e-9a5d-4f87-842f-5fe4084138ba.c95d36e140f5e0d492ca632b42e4543c.jpeg" alt="papryka" />
             </div>
+        </a>
         {% endfor %}
     </section>
 

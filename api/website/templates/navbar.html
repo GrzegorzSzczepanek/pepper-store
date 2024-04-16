@@ -60,12 +60,12 @@
         <a id="login" href="/login">Login</a>
         <a id="signUp" href="/sign-up">Sign Up</a>
         {% endif %}
-        {% if request.path == '/view-cart' %}
+        {% if request.path == '/view-cart' or request.path != '/peppers' %}
             <a id="peppers" href="/peppers">Peppers</a>
         {% endif %}
     </div>
 
-    {% if request.path != '/view-cart' %}
+    {% if request.path != '/view-cart'  %}
         {% set total_quantity = cart_items | map(attribute='quantity') | sum %}
         {% set total_worth = 0 %}
 

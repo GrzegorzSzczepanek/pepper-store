@@ -23,6 +23,12 @@ def peppers():
     return render_template('peppers.html', peppers=peppers, cart_items=cart_items, user=current_user, categories=categories)
 
 
+@views.route('/pepper_detail/<int:pepper_id>', methods=['GET'])
+def pepper(pepper_id):
+    pepper = Pepper.query.get_or_404(pepper_id)
+    return render_template('pepper_detail.html', pepper=pepper, user=current_user)
+
+
 @views.route('/search', methods=['GET'])
 def search():
     search_query = request.args.get('search')

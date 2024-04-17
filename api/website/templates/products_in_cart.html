@@ -51,28 +51,31 @@
 
 <section>
     {% for item in cart_items %}
-    <div class="product-in-cart">
-        <div class="pepper-info">
-            <h3>{{ item.pepper.name }}</h3>
-            <p>Quantity: {{ item.quantity }}</p>
-            <p>Price: {{ item.pepper.price * item.quantity }}PLN</p>
-            <form action="{{ url_for('views.update_cart', cart_id=item.id) }}" method="post">
-                <input type="number" name="quantity" value="{{ item.quantity }}">
-                <button type="submit">Update</button>
-            </form>
 
+    <a href="{{ url_for('views.pepper', pepper_id=item.pepper_id) }}">
 
-            <form action="{{ url_for('views.delete_from_cart', cart_id=item.id) }}" method="post">
-                <button type="submit">Remove</button>
-            </form>
+        <div class="product-in-cart">
+            <div class="pepper-info">
+                <h3>{{ item.pepper.name }}</h3>
+                <p>Quantity: {{ item.quantity }}</p>
+                <p>Price: {{ item.pepper.price * item.quantity }}PLN</p>
+                <form action="{{ url_for('views.update_cart', cart_id=item.id) }}" method="post">
+                    <input type="number" name="quantity" value="{{ item.quantity }}">
+                    <button type="submit">Update</button>
+                </form>
+
+                <form action="{{ url_for('views.delete_from_cart', cart_id=item.id) }}" method="post">
+                    <button type="submit">Remove</button>
+                </form>
+            </div>
+
+            <div class="pepper-image">
+                <!-- TODO get them from database -->
+                <img src="https://i5.walmartimages.com/seo/Fresh-Red-Bell-Pepper-1-Each_7be94a8e-9a5d-4f87-842f-5fe4084138ba.c95d36e140f5e0d492ca632b42e4543c.jpeg" alt="papryka" />
+            </div>
+
         </div>
-
-        <div class="pepper-image">
-            <!-- TODO get them from database -->
-            <img src="https://i5.walmartimages.com/seo/Fresh-Red-Bell-Pepper-1-Each_7be94a8e-9a5d-4f87-842f-5fe4084138ba.c95d36e140f5e0d492ca632b42e4543c.jpeg" alt="papryka" />
-        </div>
-
-    </div>
+    </a>
     {% endfor %}
 </section>
 {% endblock %}

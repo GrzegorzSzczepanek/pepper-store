@@ -9,10 +9,8 @@ views = Blueprint('views', __name__)
 @views.route('/', methods=['GET', 'POST'])
 # @login_required
 def home():
-    # if request.method == 'POST':
-    #     comment = request.form.get('comment')  # Gets the comment from the HTML
-
-    return render_template("home.html", user=current_user)
+    cart_items = Cart.query.all()
+    return render_template("home.html", cart_items=cart_items, user=current_user)
 
 
 @views.route('/peppers')
@@ -25,13 +23,14 @@ def peppers():
 
 @views.route('/pepper_detail/<int:pepper_id>', methods=['GET'])
 def pepper(pepper_id):
+    cart_items = Cart.query.all()
     pepper = Pepper.query.get_or_404(pepper_id)
-    return render_template('pepper_detail.html', pepper=pepper, user=current_user)
+    return render_template('pepper_detail.html', pepper=pepper, user=current_user, cart_items=cart_items)
 
 
 @views.route('/search', methods=['GET'])
 def search():
-    search_query = request.args.get('search')
+    # search_query = request.args.get('search')
     category = request.args.get('category')
 
     peppers = Pepper.query.all()
